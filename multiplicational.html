@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>HOW TO DIVIDE TWO NUMBERS IN ASSEMBLY LANGUAGE | BSCS F23 HUB</title>
+    <link rel="icon" type="image/x-icon" href="images/BSCS F23 fav icon.png" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">BSCS F23 HUB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="divisional.html">Latest</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('images/pagecover.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>Multiplication of two numbers in Assembly Language</h1>
+                        <h2 class="subheading">Lets understand the core concenpt of how to do multiplication in assembly language</h2>
+                        <span class="meta">
+                            Posted by
+                            <a href="#!">Muhammad Hassan (CR)</a>
+                            on December 06, 2024
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Post Content-->
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h2 class="section-heading">How the Program Works</h2>
+                    <p>The program multiplies two single-digit numbers entered by the user and displays their product. It is divided into three main parts: input handling, performing the multiplication, and displaying the result. Messages and variables for user prompts and results are defined in the data segment, while the multiplication logic is implemented in the code segment using the mul and aam instructions.</p>
+                    <!--Detailed Code Explaination-->
+                    <h2 class="section-heading">Detailed Code Explanation</h2>
+                    <h4 class="section-heading">1.Input Handling:</h3>
+                        <p>The program prompts the user to enter the first number using a message (msg1) displayed via int 21h with function 9.
+                            The input is read as a single ASCII character using int 21h with function 1, converted to decimal by subtracting 48, and stored in the variable num1.
+                            Similarly, the program prompts the user to enter the second number using a message (msg2), reads the input, converts it to decimal, and stores it in the variable num2.</p>
+
+
+                        <h4 class="section-heading">2.Performing Multiplication:</h3>
+                            <p>The first number (num1) is loaded into the AL register, and the second number (num2) is used as the multiplier for the mul instruction.
+                                The mul instruction performs the multiplication, storing the result in the AX register (AL contains the low byte, and AH contains the high byte in case of overflow).
+                                The aam instruction is used to convert the binary result in AX into unpacked BCD (Binary Coded Decimal), with the lower digit in AL and the higher digit in AH.
+                                These values are converted to ASCII by adding 48 and stored in the variables first (low digit) and second (high digit).</p>
+
+                            <h4 class="section-heading">3.Displaying Results:</h3>
+                                <p>The program displays the message Product: using int 21h with function 9.
+                                    It then displays the higher digit (second) and lower digit (first) of the product as ASCII characters using int 21h with function 2. This ensures the complete product is shown correctly.</p>
+
+                                <h4 class="section-heading">4.Program Termination:</h3>
+                                    <p>The program ends gracefully using int 21h with function 4Ch, signaling the operating system to terminate the program.</p>
+                                    <!--Detailed Explained-->
+
+                                    <!--Code Area-->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h6 class="card-title">Code Block</h6>
+                                                <button class="btn btn-primary btn-sm" id="copyButton">Copy</button>
+                                            </div>
+                                            <textarea id="codeBlock" class="form-control" rows="10" readonly
+                                                style="background-color: #000; color: #fff; font-family: monospace; border: none; padding: 10px;">
+;Program to multiply two numbers and display their product                                                                         
+.model small
+.stack 100h
+.data
+msg1 db "Enter the first number : $"
+msg2 db 0ah,0dh,"Enter the second number : $"
+msg3 db 0ah,0dh,"Product : $"
+
+num1 db ?
+num2 db ?
+first db ?
+second db ?
+.code
+Main Proc
+mov ax,@data
+mov ds,ax
+mov dx,offset msg1
+mov ah,9
+int 21h
+mov ah,1
+int 21h
+mov num1,al
+sub num1,48
+mov dx,offset msg2
+mov ah,9
+int 21h
+mov ah,1
+int 21h
+mov num2,al
+sub num2,48
+mov al,num1
+mul num2
+aam
+mov dl,al
+add dl,48
+mov first,dl
+mov dh,ah
+add dh,48
+mov second,dh
+mov dx,offset msg3
+mov ah,9
+int 21h
+mov dl,second
+mov ah,2
+int 21h
+mov dl,first
+mov ah,2
+int 21h
+mov ah,4ch
+int 21h
+Main Endp
+End Main
+                                                
+                                </textarea>
+                                        </div>
+                                    </div>
+
+                                    <!--Code Area-->
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </article>
+    <!-- Footer-->
+    <footer class="border-top">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <ul class="list-inline text-center">
+                        <li class="list-inline-item">
+                            <a href="https://www.instagram.com/mhassan.bin.khalid/">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com/profile.php?viewas=100000686899395&id=100093297812649">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://wa.me/923176248483
+                                ">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="small text-center text-muted fst-italic">Copyright &copy; Developed & Designed By
+                        Muhammad Hassan (CR)</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function () {
+            const codeBlock = document.getElementById('codeBlock');
+            codeBlock.select();
+            codeBlock.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(codeBlock.value)
+                .then(() => alert('Code copied to clipboard!'))
+                .catch(err => alert('Failed to copy code: ' + err));
+        });
+    </script>
+</body>
+
+</html>
